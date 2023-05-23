@@ -162,6 +162,19 @@ Get started: 30 seconds to Torchreid
     )
 
 
+To run on the TIL 2023 CV dataset
+---------------------------------
+1. get the cropped dataset. 
+
+.. code-block:: bash
+
+    cd deep-person-reid
+    mkdir reid-data
+    cd reid-data
+    git clone https://github.com/yuyouyou032/til2023_cv_dataset.git
+    
+2. register the Til2023CvDataset2 class (already created torchreid/data/datasets/image/til2023_cv_dataset_2.py) following the instructions given in the documentation
+
 A unified interface
 -----------------------
 In "deep-person-reid/scripts/", we provide a unified interface to train and test a model. See "scripts/main.py" and "scripts/default_config.py" for more details. The folder "configs/" contains some predefined configs which you can use as a starting point.
