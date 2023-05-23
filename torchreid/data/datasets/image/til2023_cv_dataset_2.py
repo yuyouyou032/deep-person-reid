@@ -17,6 +17,7 @@ from torchreid.data import ImageDataset
 
 class Til2023CvDataset2(ImageDataset):
     dataset_dir = 'til2023_cv_dataset'
+    
 
     def __init__(self, root='', **kwargs):
         self.root = osp.abspath(osp.expanduser(root))
@@ -76,4 +77,6 @@ class Til2023CvDataset2(ImageDataset):
         print("QUERY::: ", query[:10])
         print("GALLERY::: ", gallery[:10])
 
+
         super(Til2023CvDataset2, self).__init__(train, query, gallery, **kwargs)
+        

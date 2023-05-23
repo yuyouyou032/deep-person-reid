@@ -166,7 +166,7 @@ class Engine(object):
             )
 
         if test_only:
-            self.test(
+            rank1, distmat, dataset = self.test(
                 dist_metric=dist_metric,
                 normalize_feature=normalize_feature,
                 visrank=visrank,
@@ -176,7 +176,7 @@ class Engine(object):
                 ranks=ranks,
                 rerank=rerank
             )
-            return
+            return rank1, distmat, dataset
 
         if self.writer is None:
             self.writer = SummaryWriter(log_dir=save_dir)
@@ -197,7 +197,7 @@ class Engine(object):
                and eval_freq > 0 \
                and (self.epoch+1) % eval_freq == 0 \
                and (self.epoch + 1) != self.max_epoch:
-                rank1 = self.test(
+                rank1, distmat = self.test(
                     dist_metric=dist_metric,
                     normalize_feature=normalize_feature,
                     visrank=visrank,
@@ -210,7 +210,7 @@ class Engine(object):
 
         if self.max_epoch > 0:
             print('=> Final test')
-            rank1 = self.test(
+            rank1, distmat = self.test(
                 dist_metric=dist_metric,
                 normalize_feature=normalize_feature,
                 visrank=visrank,
@@ -321,7 +321,7 @@ class Engine(object):
             print('##### Evaluating {} ({}) #####'.format(name, domain))
             query_loader = self.test_loader[name]['query']
             gallery_loader = self.test_loader[name]['gallery']
-            rank1, mAP = self._evaluate(
+            rank1, mAP, distmat, dataset = self._evaluate(#--------------------------------------------<<<<<<<<<<<
                 dataset_name=name,
                 query_loader=query_loader,
                 gallery_loader=gallery_loader,
@@ -339,7 +339,7 @@ class Engine(object):
                 self.writer.add_scalar(f'Test/{name}/rank1', rank1, self.epoch)
                 self.writer.add_scalar(f'Test/{name}/mAP', mAP, self.epoch)
 
-        return rank1
+        return rank1, distmat, dataset#-------------------------------------------------------------------<<<<<<<
 
     @torch.no_grad()
     def _evaluate(
@@ -374,6 +374,9 @@ class Engine(object):
             f_ = torch.cat(f_, 0)
             pids_ = np.asarray(pids_)
             camids_ = np.asarray(camids_)
+            print("HELLO HERE ARE UR PIDS AND CAMIDS: ") # ---------------------------<<<
+            print(pids_, camids_)
+            
             return f_, pids_, camids_
 
         print('Extracting features from query set ...')
@@ -396,6 +399,9 @@ class Engine(object):
         )
         distmat = metrics.compute_distance_matrix(qf, gf, dist_metric)
         distmat = distmat.numpy()
+        print("YOUR DISTMAT!!!: ", distmat.shape) #-----------------------------------------<<<
+        for i in distmat:
+            print(i)
 
         if rerank:
             print('Applying person re-ranking ...')
@@ -429,8 +435,10 @@ class Engine(object):
                 save_dir=osp.join(save_dir, 'visrank_' + dataset_name),
                 topk=visrank_topk
             )
-
-        return cmc[0], mAP
+            
+        dataset = self.datamanager.fetch_test_loaders(dataset_name) #-------------------------<<<<<<<<<
+        
+        return cmc[0], mAP, distmat, dataset #----------------------------------------------------<<<<<<<<<<
 
     def compute_loss(self, criterion, outputs, targets):
         if isinstance(outputs, (tuple, list)):
