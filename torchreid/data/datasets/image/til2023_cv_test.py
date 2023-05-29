@@ -15,8 +15,8 @@ random.seed(random_seed)
 from torchreid.data import ImageDataset
 
 
-class Til2023CvDataset2(ImageDataset):
-    dataset_dir = 'til2023_cv_dataset'
+class Til2023CvTest(ImageDataset):
+    dataset_dir = 'til2023_cv_test'
     
 
     def __init__(self, root='', **kwargs):
@@ -24,9 +24,9 @@ class Til2023CvDataset2(ImageDataset):
         self.dataset_dir = osp.join(self.root, self.dataset_dir)
 
         path = "/notebooks/deep-person-reid/reid-data/til2023_cv_dataset/Train1/"
-        path2 = "/notebooks/deep-person-reid/reid-data/til2023_cv_dataset/Validation1/"
+        path2 = "/notebooks/deep-person-reid/reid-data/til2023_cv_test/Suspects/"
+        path3 = "/notebooks/deep-person-reid/reid-data/til2023_cv_test/Test1/"
         paths = {}
-        paths2 = {}
         
         # prepare train set
         train = []
@@ -37,7 +37,6 @@ class Til2023CvDataset2(ImageDataset):
                     paths[filename[:5]] = [filename]
                 else:
                     paths[filename[:5]].append(filename)   
-        # paths.pop('.DS_S')
         key_list = list(paths.keys())
         for i in key_list:
             a = paths[i]
@@ -52,21 +51,11 @@ class Til2023CvDataset2(ImageDataset):
         gallery = []
         # Iterate over the files in the directory
         for filename in os.listdir(path2):
-            if os.path.isfile(os.path.join(path2, filename)):
-                if filename[:5] not in paths2.keys():
-                    paths2[filename[:5]] = [filename]
-                else:
-                    paths2[filename[:5]].append(filename)   
-        # paths2.pop('.DS_S')
-        key_list2 = list(paths2.keys())
-        for i in key_list2:
-            a = paths2[i]
-            shuffle(a)
-            for j in range(len(a)):
-                if 0<=j<5:
-                    query.append((path2 + a[j], int(a[j][:5])+200, 0))
-                else:
-                    gallery.append((path2 + a[j], int(a[j][:5])+200, 2))
+            query.append((path2 + filename, 0, 0))
+
+                    
+        for filename in os.listdir(path3):           
+            gallery.append((path3 + filename, 0, 2))
                 
         
         shuffle(train)
@@ -78,5 +67,5 @@ class Til2023CvDataset2(ImageDataset):
         print("GALLERY::: ", gallery[:10])
 
 
-        super(Til2023CvDataset2, self).__init__(train, query, gallery, **kwargs)
+        super(Til2023CvTest, self).__init__(train, query, gallery, **kwargs)
         

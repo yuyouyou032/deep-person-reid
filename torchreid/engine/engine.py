@@ -197,7 +197,7 @@ class Engine(object):
                and eval_freq > 0 \
                and (self.epoch+1) % eval_freq == 0 \
                and (self.epoch + 1) != self.max_epoch:
-                rank1, distmat = self.test(
+                temp = self.test(
                     dist_metric=dist_metric,
                     normalize_feature=normalize_feature,
                     visrank=visrank,
@@ -206,11 +206,16 @@ class Engine(object):
                     use_metric_cuhk03=use_metric_cuhk03,
                     ranks=ranks
                 )
+                try: 
+                    rank1, distmat = temp
+                except:
+                    rank1 = temp
+                 
                 self.save_model(self.epoch, rank1, save_dir)
 
         if self.max_epoch > 0:
             print('=> Final test')
-            rank1, distmat = self.test(
+            temp = self.test(
                 dist_metric=dist_metric,
                 normalize_feature=normalize_feature,
                 visrank=visrank,
@@ -219,6 +224,10 @@ class Engine(object):
                 use_metric_cuhk03=use_metric_cuhk03,
                 ranks=ranks
             )
+            try:
+                rank1, distmat = temp
+            except:
+                rank1 = temp
             self.save_model(self.epoch, rank1, save_dir)
 
         elapsed = round(time.time() - time_start)
