@@ -84,7 +84,9 @@ class Transformer(nn.Module):
                  num_decoder_layers=6, dim_feedforward=2432, dropout=0.1,
                  activation="prelu", normalize_before=False,
                  return_intermediate_dec=False,
-                 rm_self_attn_dec=True, rm_first_self_attn=True
+                 rm_self_attn_dec=True, rm_first_self_attn=True, 
+                 num_classes=200, loss='softmax',
+                 pretrained=None, use_gpu=True
                  ):
         super().__init__()
 
