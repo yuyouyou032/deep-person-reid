@@ -27,3 +27,34 @@ Processing '/etc/joe/editorrc'...
 Processing '/etc/joe/ftyperc'...
 Finished processing /etc/joe/ftyperc
 Finished processing /etc/joe/editorrc
+
+*** These modified files were found in JOE when it aborted on Sun Jun 11 13:10:37 2023
+*** JOE was aborted by UNIX signal 1
+
+*** File '(Unnamed)'
+/notebooks/deep-person-reid/.git/COMMIT_EDITMSG
+
+*** File '/notebooks/deep-person-reid/.git/COMMIT_EDITMSG'
+added robo inference code
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+#
+# On branch main
+# Your branch is up to date with 'origin/main'.
+#
+# Changes to be committed:
+#	modified:   torchreid/data/datasets/image/til2023_cv_test.py
+#	modified:   torchreid/engine/engine.py
+#	modified:   train2.ipynb
+#	modified:   train3.ipynb
+#
+# Untracked files:
+#	robo.ipynb
+#	torchreid/data/datasets/image/robo.py
+#
+
+*** File '* Startup Log *'
+Processing '/etc/joe/editorrc'...
+Processing '/etc/joe/ftyperc'...
+Finished processing /etc/joe/ftyperc
+Finished processing /etc/joe/editorrc

@@ -428,11 +428,11 @@ class Engine(object):
             use_metric_cuhk03=use_metric_cuhk03
         )
 
-        print('** Results **')
-        print('mAP: {:.1%}'.format(mAP))
-        print('CMC curve')
-        for r in ranks:
-            print('Rank-{:<3}: {:.1%}'.format(r, cmc[r - 1]))
+        # print('** Results **')
+        # print('mAP: {:.1%}'.format(mAP))                     #--------------------------------------<<<<<
+        # print('CMC curve')
+        # for r in ranks:
+        #     print('Rank-{:<3}: {:.1%}'.format(r, cmc[r - 1]))
 
         if visrank:
             visualize_ranked_results(
